@@ -138,7 +138,9 @@ def gen_model(input_shape, filter_decomposition='cascade'):
         y78 = add([y7, y8])
         y = maximum([y12, y34, y56, y78])
     else:
-        assert False
+        raise ValueError("filter_decomposition should be 'cascade' or"
+                         " 'parallel' but received '{}' instead"
+                         .format(filter_decomposition))
 
     y = Conv2D(64, (3, 3), padding='same', activation='relu')(y)
     outputs = Conv2D(3, (3, 3), padding='same', activation='sigmoid')(y)
