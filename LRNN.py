@@ -56,8 +56,9 @@ class LRNN(Layer):
 def gen_model(input_shape, filter_decomposition='cascade'):
     inputs = Input(shape=input_shape)
 
+    channels = input_shape[2]
     #multi-scale
-    scale0 = Conv2D(3, (3, 3), padding='same')(inputs)
+    scale0 = Conv2D(channels, (3, 3), padding='same')(inputs)
     scale1 = MaxPooling2D((2, 2))(scale0)
     scale2 = MaxPooling2D((2, 2))(scale1)
     scale3 = MaxPooling2D((2, 2))(scale2)

@@ -21,14 +21,14 @@ def degrade(img, p):
 def datagen(pathnames, patchsize, batch_size):
     images = np.empty((batch_size, patchsize, patchsize, 3), dtype=np.float64)
     degrade_images = np.empty((batch_size, patchsize, patchsize, 4), dtype=np.float64)
-    batch_size = batch_size // 4
+    batch_size = batch_size // 1
     while True:
         np.random.shuffle(pathnames)
         for i in range(0, len(pathnames), batch_size):
             n_sample = 0
             for f in pathnames[i:i+batch_size]:
                 img = skimage.io.imread(f)
-                for _ in range(4):
+                for _ in range(1):
                     patch = gen_patch(img, patchsize)
                     patch = skimage.util.img_as_float(patch)
                     if patch.ndim == 2:
@@ -36,7 +36,7 @@ def datagen(pathnames, patchsize, batch_size):
                     images[n_sample] = patch
                     luminance_ch = rgb2yuv(patch)[:,:,0]
                     degrade_images[n_sample] = np.concatenate(
-                        [degrade(patch, 0.03), np.expand_dims(luminance_ch, -1)],
+                        [degrade(patch, 0.05), np.expand_dims(luminance_ch, -1)],
                         axis=-1
                     )
                     n_sample = n_sample + 1
@@ -54,19 +54,18 @@ if len(argv) > 2:
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 np.random.seed(0x5EED)
 
-model = gen_model((96, 96, 4), argv[1])
-model.compile(optimizer='Adamax', loss=Keras.losses.mse)
-# Keras.utils.plot_model(model, to_file='model.png')
-
 batch_size = 32
 patchsize = 96
 n_epoch = 30
 
+model = gen_model((patchsize, patchsize, 4), argv[1])
+model.compile(optimizer='Adamax', loss=Keras.losses.mse)
+# Keras.utils.plot_model(model, to_file='model.png')
+
 datadir = './data/train2014'
 pathnames = [os.path.join(datadir, f) for f in os.listdir(datadir)]
 n_sample = len(pathnames)
-steps_per_epoch=int((n_sample + batch_size-1) / batch_size)
-steps_per_epoch=100
+steps_per_epoch=200
 n_epoch=300000
 
 valdir = './data/test2014'

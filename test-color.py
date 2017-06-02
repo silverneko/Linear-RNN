@@ -49,7 +49,7 @@ for filename in filenames:
     if img.ndim == 2:
         img = skimage.color.gray2rgb(img)
     luminance_ch = rgb2yuv(img)[:,:,0]
-    degrade_img = degrade(img, 0.03)
+    degrade_img = degrade(img, 0.05)
     input_img = np.concatenate(
         [degrade_img, np.expand_dims(luminance_ch, -1)],
         axis=-1
