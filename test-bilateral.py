@@ -41,7 +41,7 @@ for filename in filenames:
     img = skimage.img_as_float(img)
     if img.ndim == 2:
         img = skimage.color.gray2rgb(img)
-    img = random_noise(img, var=0.005)
+    #img = random_noise(img, var=0.005)
     filter_image = denoise_bilateral(
         img,
         sigma_color=0.1,
