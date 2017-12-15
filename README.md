@@ -1,5 +1,5 @@
 # Linear RNN
-Keras implementation of LRNN based on [Liusifei's work - Learning Recursive Filters for Low-Level Vision via a Hybrid Neural Network][1].
+Keras implementation of LRNN based on [Liusifei's work - "Learning Recursive Filters for Low-Level Vision via a Hybrid Neural Network"][1].
 
 Liu's original implementation which is based on caffe can be found [here][2].
 
